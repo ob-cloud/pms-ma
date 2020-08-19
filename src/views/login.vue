@@ -141,7 +141,7 @@ export default {
         localStorage.removeItem('password')
       }
       // window.location.href = "index.html";
-      Toast.success('登录成功');
+      // Toast.success('登录成功');
       this.$router.push({
         path:"/index/home"
       })
