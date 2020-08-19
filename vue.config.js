@@ -1,9 +1,11 @@
+let HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const pxtorem = require('postcss-pxtorem');
 const path = require('path');
 module.exports = {
   lintOnSave: false,
-
+  publicPath:'././',
+  productionSourceMap: false,
   devServer: {
       proxy: {
           '/Logic': {
@@ -35,5 +37,13 @@ module.exports = {
         path.resolve(__dirname, './src/assets/variable.less')
       ]
     }
-  }
+  }, 
+  // configureWebpack: {
+  //   plugins: [ //数组：放着所有的webpack插件
+  //     // 配置
+  //      new HtmlWebpackPlugin({
+  //        filename: 'login.html'
+  //      })
+  //    ]
+  // }
 }

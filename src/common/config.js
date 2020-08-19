@@ -4,7 +4,7 @@ switch (process.env.NODE_ENV) {
     baseURL = ""; //这里是本地的请求url
     break;
   case "production":
-    baseURL = "http://qs-ma.on-bright.com/"; //生产环境url
+    baseURL = "/"; //生产环境url //http://qs-ma.on-bright.com
     break;
 }
 export { baseURL };

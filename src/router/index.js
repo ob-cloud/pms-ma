@@ -7,60 +7,60 @@ const routes = [
   {
     path: "/login",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/login.vue")
+      import(/* webpackChunkName: "pmsMa" */ "../views/login.vue")
   },
   {
     path: "/index",
     name: "Index",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/index.vue"),
+      import(/* webpackChunkName: "pmsMa" */ "../views/index.vue"),
     children: [
       {
         path: 'home',
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/indexHome.vue"),
+          import(/* webpackChunkName: "pmsMa" */ "../views/indexHome.vue"),
       },
       {
         path: 'roomtype',
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/indexRoomType.vue"),
+          import(/* webpackChunkName: "pmsMa" */ "../views/indexRoomType.vue"),
       },
       {
         path: 'revenue',
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/indexRevenue.vue"),
+          import(/* webpackChunkName: "pmsMa" */ "../views/indexRevenue.vue"),
       },
       {
         path: 'indexOrderList',
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/indexOrderList.vue"),
+          import(/* webpackChunkName: "pmsMa" */ "../views/indexOrderList.vue"),
       },
       {
         path: 'me',
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/indexMe.vue"),
+          import(/* webpackChunkName: "pmsMa" */ "../views/indexMe.vue"),
       }
     ]
   },
   {
     path: "/setroomprice",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/setRoomPrice.vue")
+      import(/* webpackChunkName: "pmsMa" */ "../views/setRoomPrice.vue")
   },
   {
     path: "/bookroomfolio",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/bookroomfolio.vue")
+      import(/* webpackChunkName: "pmsMa" */ "../views/bookroomfolio.vue")
   },
   {
     path: "/addtrans",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/addtrans.vue")
+      import(/* webpackChunkName: "pmsMa" */ "../views/addtrans.vue")
   },
   {
     path: "*",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/login.vue")
+      import(/* webpackChunkName: "pmsMa" */ "../views/login.vue")
   }
 ];
 

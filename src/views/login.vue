@@ -218,6 +218,7 @@ export default {
     color: @baseColor;
   }
   .re-password {
+    box-sizing: border-box;
     display: flex;
     justify-content: flex-end;
     width: 100%;
