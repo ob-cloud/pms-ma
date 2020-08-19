@@ -1,17 +1,7 @@
 <template>
   <div id="indexRevenue">
-    <!-- <van-nav-bar
-      title="数据分析"
-      z-index="2"
-      fixed
-      :border="false"
-      :placeholder="true"
-      class="white-color"
-    >
-      <template #right>
-        <van-icon name="replay" @mousedown="reflash" size="18" />
-      </template>
-    </van-nav-bar> -->
+    <van-nav-bar title="数据分析" z-index="2" fixed :placeholder="true">
+    </van-nav-bar>
     <van-tabs @click="onClick">
       <van-tab title="营收分析" name="1">
         <p>营收趋势分析({{trandDate[1]}}~{{trandDate[0]}})</p>
@@ -29,13 +19,13 @@
       <van-tab title="经营分析" name="2">
         <p>经营趋势分析({{trandDate[1]}}~{{trandDate[0]}})</p>
         <line-chart v-if="datacollection2" :chartData="datacollection2"></line-chart>
-        <van-cell title="营业日期" :value="date" @click="show = true" icon="coupon-o"></van-cell>
+        <van-cell title="营业日期" :value="date2" @click="show2 = true" icon="coupon-o"></van-cell>
         <van-cell-group class="show-info">
           <van-cell title="出租夜间" :value="statisticsInfo.RentRoomCount" />
           <van-cell title="过夜房" :value="statisticsInfo.NightRoomCount" />
           <van-cell title="钟点房" :value="statisticsInfo.ClDayRoomCount" />
           <van-cell title="日租房" :value="statisticsInfo.DayRoomCount" />
-          <van-cell title="出租率" :value="statisticsInfo.Occupancy + '%'" />
+          <van-cell title="出租率" :value="(statisticsInfo.Occupancy || '') + '%'" />
           <van-cell title="平均房价" :value="statisticsInfo.AverageRate" />
           <van-cell title="RevPAR" :value="statisticsInfo.RevPar" />
           <van-cell title="房间总数" :value="statisticsInfo.RoomCount" />
@@ -53,7 +43,7 @@
     <van-calendar
       v-model="show2"
       :show-confirm="false"
-      @confirm="onConfirm"
+      @confirm="onConfirm2"
       :max-date="maxDate"
       :min-date="minDate"
       :default-date="defaultDate"
@@ -219,7 +209,7 @@ export default {
       };
     },
     getStatisticsHandelLogic() {
-      SystemAPI.StatisticsHandelLogic(getChainID(), this.date)
+      SystemAPI.StatisticsHandelLogic(getChainID(), this.date2)
         .then(res => {
           if (res.status === 200 && res.data && res.data.CreateAccDate) {
             this.statisticsInfo = Object.assign(res.data, {

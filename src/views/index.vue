@@ -44,5 +44,6 @@ export default {
 
 <style scoped lang="less">
 #index {
+  min-height: 100vh;
 }
 </style>

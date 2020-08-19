@@ -1,10 +1,10 @@
 <template>
   <div id="indexHome">
-    <!-- <van-nav-bar title="千顺酒店" fixed :border="false" :placeholder="true" class="white-color">
+    <van-nav-bar title="千顺酒店" fixed :border="false" :placeholder="true" class="white-color">
       <template #right>
         <van-icon name="replay" @mousedown="reflash" size="18"/>
       </template>
-    </van-nav-bar> -->
+    </van-nav-bar>
     <img src="https://www.on-bright-gz.com/images/upload/202007/1595572520143027.png" width="100%" alt="">
     <van-cell >
       <template #title>

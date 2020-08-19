@@ -1,5 +1,18 @@
 <template>
   <div id="login">
+    <div class="logo-box">
+      千顺<br/>LOGO
+    </div>
+    <h1 class="hotel-name">千顺酒店</h1>
+    <p class="welcome-name">Hi,欢迎回来!</p>
+    <input type="text" v-model="username" name="" class="input-item" placeholder="请输入账号/手机号码">
+    <input type="password" name="" v-model="password" class="input-item int-password" placeholder="请输入密码">
+    <div class="re-password">
+      <van-checkbox v-model="checked" shape="square" >记住密码</van-checkbox>
+    </div>
+    <van-button  :disabled="!(username && password)" type="default" block  @click="loginEven" class="sub-btn">登录</van-button>
+
+
     <van-form class="login-box">
       <div class="account">
         <van-field
@@ -121,11 +134,10 @@ export default {
     selectInn(result){
       window.localStorage.setItem("chain_id", result.ChainID);
       window.localStorage.setItem("chain_name", result.ChainName);
-      if(this.checked) {
         window.localStorage.setItem("username", this.username);
+      if(this.checked) {
         window.localStorage.setItem("password", this.password);
       } else {
-        localStorage.removeItem('username')
         localStorage.removeItem('password')
       }
       // window.location.href = "index.html";
@@ -146,14 +158,95 @@ export default {
 #login {
   width: 100vw;
   height: 100vh;
-  background: url("https://www.on-bright-gz.com/data/article/1593474821898694364.png")
-    rgb(24, 144, 255) no-repeat center center/cover;
+  background: url("../assets/login_bcg.png")
+    @baseColor no-repeat center center/cover;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  .logo-box {
+    margin-top: 57px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:14px;
+    color: #fff;
+    width:60px;
+    height:60px;
+    background-color: @baseColor;
+    border-radius:6px;
+  }
+  .hotel-name {
+    color: #fff;
+    margin-bottom: 8px;
+    margin-top: 13px;
+    font-size:18px;
+    line-height:25px;
+  }
+  .welcome-name {
+    color: #fff;
+    margin:0 0 58px;
+    width:112px;
+    font-size:12px;
+    font-size:12px;
+    line-height:17px;
+    letter-spacing:3px;
+  }
+  .input-item {
+    box-sizing: border-box;
+    width:308px;
+    height:40px;
+    background: @baseColor;
+    border: none;
+    padding: 10px 40px;
+    border-radius:20px;
+    color: #fff;
+    text-align: center;
+  }
+  .input-item::-webkit-input-placeholder{
+    height:20px;
+    font-size:14px;
+    line-height:20px;
+    color: #fff;
+    text-align: center;
+  }
+  .int-password {
+    margin-top: 18px;
+    background-color: #fff;
+    color: @baseColor;
+  }
+  .int-password::-webkit-input-placeholder{
+    color: @baseColor;
+  }
+  .re-password {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    text-align: right;
+    padding-right: 59px;
+    margin-top: 8px;
+    .van-checkbox__icon .van-icon {
+      border-color: #fff;
+    }
+    .van-checkbox__label {
+      color: #fff;
+    }
+  }
+  .sub-btn {
+    margin-top: 22px;
+    width:308px;
+    height:40px;
+    background: @baseColor;
+    border-radius:20px;
+    border: none;
+    font-size:18px;
+    color:rgba(255,255,255,1);
+    line-height:25px;
+  }
+
   .login-box {
+    display: none;
     position: relative;
-    width: 68%;
+    width: 80%;
     min-height: 180px;
     padding: 24px 20px 40px;
     background-color: #fff;

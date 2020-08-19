@@ -72,7 +72,7 @@ function apiAxios(method, url, params = {}, headers) {
     // `data` 是作为请求主体被发送的数据
     params: method === "GET" || method === "DELETE" ? params : {},
     data: method === "POST" || method === "PUT" ? params : {},
-    timeout: 10000
+    timeout: 50000
   };
   // 注意**Promise**使用(Promise首字母大写)
   return new Promise((resolve, reject) => {

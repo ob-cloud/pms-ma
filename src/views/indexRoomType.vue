@@ -1,10 +1,6 @@
 <template>
   <div id="indexRoomType">
-    <!-- <van-nav-bar title="房态" :placeholder="true" fixed :border="false">
-      <template #right>
-        <van-icon name="replay" @mousedown="reflash" size="18" />
-      </template>
-    </van-nav-bar>-->
+    <van-nav-bar title="房态" :placeholder="true" fixed ></van-nav-bar>
     <van-row class="i-tab-box">
       <van-col span="8" class="i-tab" :class="{'active-tab': active === 1}" @click="changeTab(1)">房号</van-col>
       <van-col span="8" class="i-tab" :class="{'active-tab': active === 2}" @click="changeTab(2)">房型</van-col>
@@ -240,14 +236,12 @@ export default {
   methods: {
     changeTab(index) {
       this.active = index;
-      this.getRoomMap(
-        index === 1 ? "RoomNo" : index === 2 ? "RoomTypeID" : "Floor"
-      );
+      this.getRoomMap();
     },
-    getRoomMap(sort_type = "RoomNo") {
+    getRoomMap() {
       this.roomList = [];
       this.isLoading = true;
-      SystemAPI.RoomMapHandelLogic(getChainID(), sort_type).then(
+      SystemAPI.RoomMapHandelLogic(getChainID(), this.active === 1 ? "RoomNo" : this.active === 2 ? "RoomTypeID" : "Floor").then(
         res => {
           this.isLoading = false;
           if (res.status === 200 && res.data) {
@@ -444,13 +438,14 @@ export default {
           break;
         case "Detail":
           const Detailquery = {
-            "action": this.action,
+            "action": this.action == "booktowalkin" ? 'booktowalkin': 'checkin',
             "roomno": this.contralItem.RoomNo,
             "roomid": this.contralItem.RoomID,
             "maxcheckincount": this.contralItem.MaxCheckInCount,
             "roomname": this.contralItem.RoomNo,
             "roomtypeid": this.contralItem.RoomTypeID,
-            "roomfolioid": this.contralItem.FolioID
+            "roomfolioid": this.contralItem.FolioID,
+            "roomtypename": this.contralItem.RoomTypeName
           }
           this.$router.push({
             path: "/bookroomfolio",
@@ -659,7 +654,7 @@ export default {
   }
   .room-list {
     margin-top: 10px;
-    height: calc(100vh - 6.6rem);
+    height: calc(100vh - 7.6rem);
     overflow: hidden;
     font-size: 12px;
     .room-num {

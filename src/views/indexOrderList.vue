@@ -1,13 +1,13 @@
 <template>
   <div id="indexPriceSet">
-    <!-- <van-nav-bar title="房单列表" z-index="2" fixed :border="false" :placeholder="true" /> -->
+    <van-nav-bar title="房单列表" z-index="2" fixed  :placeholder="true" />
     <van-cell>
       <template #title>
-        <span>营业日期</span>
+        <strong>营业日期</strong>
         <span class="date-select" @click="show = true">{{date}}</span>
       </template>
       <template #extra>
-        <span>状态</span>
+        <strong>状态</strong>
         <span class="date-select" @click="showPicker = true">{{type}}</span>
       </template>
     </van-cell>
@@ -16,7 +16,7 @@
         <p class="order-base">
           <span>预订人：{{item.ContractName}}</span>
           <span>编号{{item.FolioID}}</span>
-          <span>{{getFoliostate(item.FolioState)}}</span>
+          <span class="color-red">{{getFoliostate(item.FolioState)}}</span>
         </p>
         <van-row gutter="20">
           <van-col span="12">预定时间：{{item.Arrival.slice(0, 10)}}</van-col>
@@ -25,7 +25,7 @@
           <van-col span="12">退房时间：{{item.Deporig.slice(0, 10)}}</van-col>
         </van-row>
         <div class="to-order">
-          <van-button type="default" size="small">查看</van-button>
+          <van-button type="default" size="small" @click="showDetail(item)">查看</van-button>
         </div>
       </li>
     </ul>
@@ -138,6 +138,20 @@ export default {
         case 5:
           return "退房";
       }
+    },
+    showDetail(item) {
+      this.$router.push({
+        path: '/bookroomfolio',
+        query: {
+          roomid: item.RoomNo,
+          roomno: item.RoomNo,
+          roomname: item.RoomTypeName,
+          roomtypeid: item.RoomTypeID,
+          roomfolioid: item.FolioID,
+          action: ['booktowalkin','cancel','noshow','checkin','checkout'][item.FolioState - 1],
+          backPath: "/index/indexOrderList"
+        }
+      })
     }
   }
 };
@@ -159,7 +173,8 @@ export default {
     padding: 10px 0px;
     margin: 10px;
     border: 1px solid rgba(163, 163, 163, 0.459);
-    border-radius: 10px;
+    background-color: #fff;
+    border-radius: 5px;
     .order-base {
       display: flex;
       justify-content: space-around;
@@ -179,6 +194,9 @@ export default {
     line-height: 40px;
     font-size: 14px;
     color: #c9c9c9;
+  }
+  .color-red {
+    color: red;
   }
 }
 </style>

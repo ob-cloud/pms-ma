@@ -53,6 +53,11 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/bookroomfolio.vue")
   },
   {
+    path: "/addtrans",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/addtrans.vue")
+  },
+  {
     path: "*",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/login.vue")
@@ -62,5 +67,18 @@ const routes = [
 const router = new VueRouter({
   routes
 });
+router.beforeEach((to, from, next) => {
+  if(to.path === '/login'){
+    next()
+  } else {
+    if(!localStorage.getItem('Login')) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  }
+})
 
 export default router;

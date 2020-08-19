@@ -15,7 +15,23 @@ function getChainID() {
       return window.localStorage.getItem("chain_id");
   }
 }
+function getFoliostate(state) {
+  switch (state) {
+      case 1:
+          return "预订";
+      case 2:
+          return "取消";
+      case 3:
+          return "未到";
+      case 4:
+          return "入住";
+      case 5:
+          return "退房";
+  }
+
+}
 export {
   checkVal,
-  getChainID
+  getChainID,
+  getFoliostate
 }
