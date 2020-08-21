@@ -718,7 +718,7 @@ export default {
     margin-top: 20px;
   }
   .room-item {
-    z-index: 99;
+    // z-index: 99;
   }
   .roomtype-popup-tit {
     font-weight: bold;
