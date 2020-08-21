@@ -1,6 +1,10 @@
 <template>
   <div id="indexPriceSet">
-    <van-nav-bar title="房单列表" z-index="2" fixed  :placeholder="true" />
+    <van-nav-bar title="房单列表" z-index="2" fixed  :placeholder="true" >
+      <template #right>
+        <van-icon name="add-o" @click="addnew" size="18"/>
+      </template>
+    </van-nav-bar>
     <van-cell>
       <template #title>
         <strong>营业日期</strong>
@@ -141,7 +145,7 @@ export default {
     },
     showDetail(item) {
       this.$router.push({
-        path: '/bookroomfolio',
+        path: '/bookroomfolio.html',
         query: {
           roomid: item.RoomNo,
           roomno: item.RoomNo,
@@ -149,7 +153,16 @@ export default {
           roomtypeid: item.RoomTypeID,
           roomfolioid: item.FolioID,
           action: ['booktowalkin','cancel','noshow','checkin','checkout'][item.FolioState - 1],
-          backPath: "/index/indexOrderList"
+          backPath: "/index/indexOrderList.html"
+        }
+      })
+    },
+    addnew() {
+      this.$router.push({
+        path: '/bookroomfolio.html',
+        query: {
+          action: "book",
+          backPath: "/index/indexOrderList.html"
         }
       })
     }

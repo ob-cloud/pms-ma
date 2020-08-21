@@ -19,7 +19,7 @@
         <van-cell icon="coupon-o" title="地址" :value="hotelInfo.ChainAddress" />
       </div>
       <div class="setting-box">
-        <van-cell icon="setting-o" v-if="hasPower(503)" title="房价设置" is-link to="/setroomprice" />
+        <van-cell icon="setting-o" v-if="hasPower(503)" title="房价设置" is-link to="/setroomprice.html" />
       </div>
     </div>
     <!-- hasPower(505) -->
@@ -60,7 +60,7 @@ export default {
       localStorage.removeItem("chain_id");
       localStorage.removeItem("chain_name");
       this.$router.push({
-        path: '/login'
+        path: '/login.html'
       })
     }
   }
@@ -78,7 +78,7 @@ export default {
 <style scoped lang="less">
 #indexMe {
   .me-center {
-    height: calc(100vh - 2.6rem);
+    min-height: calc(100vh - 2.9rem);
     background-color: #fff;
   }
   .login-out {

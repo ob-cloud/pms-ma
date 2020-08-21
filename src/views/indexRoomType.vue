@@ -29,6 +29,7 @@
           :key="item.RoomNo"
           :class="item.classRoom"
           @click="selectContral(item)"
+          class="room-item"
         >
           <p class="room-num">
             <span>{{item.RoomNo}}</span>
@@ -46,6 +47,7 @@
     </div>
     <!-- 房态弹窗 -->
     <van-popup v-model="show" round closeable position="bottom">
+      <van-cell title="房态操作" class="roomtype-popup-tit"/>
       <van-cell
         v-for="item in showList(list)"
         :key="item.code"
@@ -355,18 +357,19 @@ export default {
       }
     },
     reLoadData() {
-      this.$nextTick(() => {
-        if (this.myScroll) {
-          this.myScroll.refresh(); //在新数据DOM渲染完毕后关闭
-        } else {
-          this.myScroll = new IScroll(this.$refs.wrapper, {
-            scrollbars: false,
-            bounce: true,
-            mouseWheel: true,
-            probeType: 3
-          });
-        }
-      });
+      // this.$nextTick(() => {
+      //   if (this.myScroll) {
+      //     this.myScroll.refresh(); //在新数据DOM渲染完毕后关闭
+      //   } else {
+      //     this.myScroll = new IScroll(this.$refs.wrapper, {
+      //       scrollbars: false,
+      //       bounce: true,
+      //       mouseWheel: true,
+      //       probeType: 3,
+      //       preventDefault: false
+      //     });
+      //   }
+      // });
     },
     selectContral(item) {
       this.contralItem = item;
@@ -432,7 +435,7 @@ export default {
           }
           console.log(sOperateType, query)
           this.$router.push({
-            path: "/bookroomfolio",
+            path: "/bookroomfolio.html",
             query: query
           })
           break;
@@ -448,7 +451,7 @@ export default {
             "roomtypename": this.contralItem.RoomTypeName
           }
           this.$router.push({
-            path: "/bookroomfolio",
+            path: "/bookroomfolio.html",
             query: Detailquery
           })
           break;
@@ -565,11 +568,11 @@ export default {
     this.getcheckUser();
   },
   mounted() {
-    var jdCateLeft = document.querySelector(".room-list");
-    //取消事件默认动作
-    jdCateLeft.addEventListener("touchmove", function(e) {
-      e.preventDefault();
-    });
+    // var jdCateLeft = document.querySelector(".room-list");
+    // //取消事件默认动作
+    // jdCateLeft.addEventListener("touchmove", function(e) {
+    //   e.preventDefault();
+    // });
   }
 };
 </script>
@@ -654,9 +657,10 @@ export default {
   }
   .room-list {
     margin-top: 10px;
-    height: calc(100vh - 7.6rem);
+    height: calc(100vh - 7.8rem);
     overflow: hidden;
     font-size: 12px;
+    overflow-y: scroll;
     .room-num {
       margin: 0;
       display: flex;
@@ -691,6 +695,7 @@ export default {
   .radio-box {
     padding: 20px;
     margin: 10px 0;
+    font-size: 14px;
     background-color: #fff;
     .van-radio--horizontal {
       justify-self: center;
@@ -711,6 +716,12 @@ export default {
   .clearnroom-btn {
     width: 100%;
     margin-top: 20px;
+  }
+  .room-item {
+    z-index: 99;
+  }
+  .roomtype-popup-tit {
+    font-weight: bold;
   }
 }
 </style>

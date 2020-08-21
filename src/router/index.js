@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/login",
+    path: "/login.html",
     component: () =>
       import(/* webpackChunkName: "pmsMa" */ "../views/login.vue")
   },
@@ -16,51 +16,50 @@ const routes = [
       import(/* webpackChunkName: "pmsMa" */ "../views/index.vue"),
     children: [
       {
-        path: 'home',
+        path: 'home.html',
         component: () =>
           import(/* webpackChunkName: "pmsMa" */ "../views/indexHome.vue"),
       },
       {
-        path: 'roomtype',
+        path: 'roomtype.html',
         component: () =>
           import(/* webpackChunkName: "pmsMa" */ "../views/indexRoomType.vue"),
       },
       {
-        path: 'revenue',
+        path: 'revenue.html',
         component: () =>
           import(/* webpackChunkName: "pmsMa" */ "../views/indexRevenue.vue"),
       },
       {
-        path: 'indexOrderList',
+        path: 'indexOrderList.html',
         component: () =>
           import(/* webpackChunkName: "pmsMa" */ "../views/indexOrderList.vue"),
       },
       {
-        path: 'me',
+        path: 'me.html',
         component: () =>
           import(/* webpackChunkName: "pmsMa" */ "../views/indexMe.vue"),
       }
     ]
   },
   {
-    path: "/setroomprice",
+    path: "/setroomprice.html",
     component: () =>
       import(/* webpackChunkName: "pmsMa" */ "../views/setRoomPrice.vue")
   },
   {
-    path: "/bookroomfolio",
+    path: "/bookroomfolio.html",
     component: () =>
       import(/* webpackChunkName: "pmsMa" */ "../views/bookroomfolio.vue")
   },
   {
-    path: "/addtrans",
+    path: "/addtrans.html",
     component: () =>
       import(/* webpackChunkName: "pmsMa" */ "../views/addtrans.vue")
   },
   {
     path: "*",
-    component: () =>
-      import(/* webpackChunkName: "pmsMa" */ "../views/login.vue")
+    redirect: "/login.html",
   }
 ];
 
@@ -68,12 +67,12 @@ const router = new VueRouter({
   routes
 });
 router.beforeEach((to, from, next) => {
-  if(to.path === '/login'){
+  if(to.path === '/login.html'){
     next()
   } else {
     if(!localStorage.getItem('Login')) {
       next({
-        path: '/login'
+        path: '/login.html'
       })
     } else {
       next()

@@ -113,7 +113,7 @@ export default {
                 else {
                     Toast.success("结账退房成功");
                     this.$router.push({
-                      path: '/bookroomfolio',
+                      path: '/bookroomfolio.html',
                       query: {
                         action: 'checkout',
                         roomno: this.$route.query.roomno,

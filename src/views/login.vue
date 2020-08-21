@@ -93,6 +93,7 @@ export default {
           this.login = true;
         })
         .catch(err => {
+          Toast.fail(err.message);
           this.login = true;
           console.log("SystemAPIERR", err);
         });
@@ -111,19 +112,19 @@ export default {
         Toast.fail("抱歉，您的帐号未分配酒店！");
         return;
       } else {
-        window.localStorage.setItem("LoginResult", JSON.stringify(result));
-        window.localStorage.setItem("Login", true);
-        window.localStorage.setItem("user_id", result[0].UserID);
-        window.localStorage.setItem("ChainLength", result[1].length);
+        localStorage.setItem("LoginResult", JSON.stringify(result));
+        localStorage.setItem("Login", true);
+        localStorage.setItem("user_id", result[0].UserID);
+        localStorage.setItem("ChainLength", result[1].length);
         if (result[2] != undefined && result[2].indexOf(2) != -1) {
-          window.localStorage.setItem("GroupRights", true);
+          localStorage.setItem("GroupRights", true);
         } else {
-          window.localStorage.setItem("GroupRights", false);
+          localStorage.setItem("GroupRights", false);
         }
         if (result[1].length == 1) {
-          // window.localStorage.setItem("chain_id", result[1][0].ChainID);
-          // window.localStorage.setItem("chain_name", result[1][0].ChainName);
-          // window.location.href = "index.html";
+          // localStorage.setItem("chain_id", result[1][0].ChainID);
+          // localStorage.setItem("chain_name", result[1][0].ChainName);
+          // location.href = "index.html";
           this.selectInn(result[1][0])
         } else { // 多个分店
           this.hotelList = result[1];
@@ -132,18 +133,17 @@ export default {
       }
     },
     selectInn(result){
-      window.localStorage.setItem("chain_id", result.ChainID);
-      window.localStorage.setItem("chain_name", result.ChainName);
-        window.localStorage.setItem("username", this.username);
+      localStorage.setItem("chain_id", result.ChainID);
+      localStorage.setItem("chain_name", result.ChainName);
+        localStorage.setItem("username", this.username);
       if(this.checked) {
-        window.localStorage.setItem("password", this.password);
+        localStorage.setItem("password", this.password);
       } else {
         localStorage.removeItem('password')
       }
-      // window.location.href = "index.html";
-      // Toast.success('登录成功');
+      // location.href = "index.html";
       this.$router.push({
-        path:"/index/home"
+        path:"/index/home.html"
       })
     }
   },

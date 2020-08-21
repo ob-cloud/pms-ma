@@ -4,7 +4,7 @@ const pxtorem = require('postcss-pxtorem');
 const path = require('path');
 module.exports = {
   lintOnSave: false,
-  publicPath:'././',
+  publicPath:'./',
   productionSourceMap: false,
   devServer: {
       proxy: {

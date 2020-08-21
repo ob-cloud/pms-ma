@@ -4,11 +4,11 @@
     </van-nav-bar> -->
     <router-view @changeTitle="changeTitle" />
     <van-tabbar v-model="active" route :placeholder="true">
-      <van-tabbar-item icon="home-o" to="/index/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="hotel-o" to="/index/roomtype" v-if="hasPower(504)">房态</van-tabbar-item>
-      <van-tabbar-item icon="chart-trending-o" to="/index/revenue" v-if="hasPower(502)">分析</van-tabbar-item>
-      <van-tabbar-item icon="setting-o" to="/index/indexOrderList" v-if="hasPower(505)">订单</van-tabbar-item>
-      <van-tabbar-item icon="user-o" to="/index/me">我的</van-tabbar-item>
+      <van-tabbar-item icon="home-o" to="/index/home.html">首页</van-tabbar-item>
+      <van-tabbar-item icon="hotel-o" to="/index/roomtype.html" v-if="hasPower(504)">房态</van-tabbar-item>
+      <van-tabbar-item icon="chart-trending-o" to="/index/revenue.html" v-if="hasPower(502)">分析</van-tabbar-item>
+      <van-tabbar-item icon="setting-o" to="/index/indexOrderList.html" v-if="hasPower(505)">订单</van-tabbar-item>
+      <van-tabbar-item icon="user-o" to="/index/me.html">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>

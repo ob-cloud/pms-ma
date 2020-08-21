@@ -5,8 +5,10 @@
       <van-tab title="房单详细">
         <van-cell-group class="left-text">
           <van-cell title="订单状态"  v-if="['booktowalkin', 'checkin', 'checkout', 'cancel'].indexOf(querInfo.action) > -1" :value="FolioState" />
-          <van-cell title="房型名称" :value="querInfo.roomtypename" />
-          <van-cell title="房间号"  :value="querInfo.roomno" />
+          <!-- <van-cell title="房型名称" :value="querInfo.roomtypename" /> -->
+          <van-field readonly clickable label="房型名称" :value="querInfo.roomtypename" input-align="right" placeholder="请选择房型" @click="showPicker4 = openSelectRoom" />
+          <!-- <van-cell title="房间号"  :value="querInfo.roomno" /> -->
+          <van-field readonly clickable label="房间号" :value="querInfo.roomno" input-align="right" placeholder="请选择房间号" @click="showPicker5 = openSelectRoom" />
           <van-cell title="入住日期" :value="startDate" @click="show = true" />
           <van-cell title="离店日期" :value="endDate" @click="show2 = true" />
           <van-field v-model="booker" label="预定人" input-align="right" placeholder="请输入预定人名称" />
@@ -94,6 +96,24 @@
         value-key="RoomRateTypeName"
       />
     </van-popup>
+    <van-popup v-model="showPicker4" round position="bottom">
+      <van-picker
+        show-toolbar
+        :columns="typeList"
+        @cancel="showPicker4 = false"
+        @confirm="onConfirm4"
+        value-key="RoomTypeName"
+      />
+    </van-popup>
+    <van-popup v-model="showPicker5" round position="bottom">
+      <van-picker
+        show-toolbar
+        :columns="roomSelectList"
+        @cancel="showPicker5 = false"
+        @confirm="onConfirm5"
+        value-key="RoomNo"
+      />
+    </van-popup>
   </div>
 </template>
 <script>
@@ -130,7 +150,13 @@ export default {
       priceList: [],
       totlePrice: '',
       accountList: [],
-      selectAccount: ''
+      selectAccount: '',
+      typeList: [],
+      showPicker4: false,
+      showPicker5: false,
+      roomObj: {},
+      roomSelectList: [],
+      openSelectRoom: false, //是否可以选择房间，房单进来的时候可以选择
     };
   },
   components: {
@@ -154,7 +180,7 @@ export default {
     },
     onClickLeft() {
       this.$router.push({
-        path: this.querInfo.backPath || '/index/roomtype'
+        path: this.$route.query.backPath || '/index/roomtype.html'
       })
     },
     startDateConfirm(date) {
@@ -207,6 +233,26 @@ export default {
     onConfirm3(value = {}) {
       this.Roomtype = value;
       this.showPicker3 = false;
+      this.querInfo.roomtypeid && this.GetRoomRateListByConditionHandler();
+    },
+    onConfirm4(value = {}) {
+      // 选择房型,选中房间号，并且覆盖query
+      this.onConfirm5(this.roomObj[value.RoomTypeID][0]);
+      this.roomSelectList = this.roomObj[value.RoomTypeID];
+      this.showPicker4 = false;
+    },
+    onConfirm5(value) {
+      // 选择房型,选中房间号，并且覆盖query
+      this.querInfo = {
+        "action": "book",
+        "roomno": value.RoomNo,
+        "roomid": value.RoomID,
+        "maxcheckincount": value.MaxCheckInCount,
+        "roomname": value.RoomNo,
+        "roomtypeid": value.RoomTypeID,
+        "roomtypename": value.RoomTypeName,
+      };
+      this.showPicker5 = false;
       this.GetRoomRateListByConditionHandler();
     },
     GetRoomRateTypeListHandler() {
@@ -221,13 +267,16 @@ export default {
       })
     },
     GetRoomRateListByConditionHandler() {
-      SystemAPI.GetRoomRateListByConditionHandler(getChainID(), this.startDate, this.$route.query.roomtypeid, this.Roomtype.RoomRateTypeID).then(res => {
+      SystemAPI.GetRoomRateListByConditionHandler(getChainID(), this.startDate, this.querInfo.roomtypeid, this.Roomtype.RoomRateTypeID).then(res => {
         console.log('GetRoomRateListByConditionHandlerres', res);
           if (res.status === 200 && res.data && res.data.AccDate) {
               this.roomprice =  res.data.DRoomRate;
               this.querInfo.roomtypename =  res.data.RoomTypeName;
+          } else {
+              this.roomprice =  '';
           }
       }).catch(err => {
+          this.roomprice =  '';
         console.log('GetRoomRateListByConditionHandlererr', err);
       })
     },
@@ -370,7 +419,7 @@ export default {
     },
     jsacc() {
       this.$router.push({
-        path: '/addtrans',
+        path: '/addtrans.html',
         query: {
           folioid: this.querInfo.roomfolioid,
           roomid: this.querInfo.roomid,
@@ -381,7 +430,7 @@ export default {
     },
     xfacc() {
       this.$router.push({
-        path: '/addtrans',
+        path: '/addtrans.html',
         query: {
           folioid: this.querInfo.roomfolioid,
           roomid: this.querInfo.roomid,
@@ -432,7 +481,7 @@ export default {
       SystemAPI.GetAccTransBalanceHandler(getChainID(), this.querInfo.roomfolioid).then(res => {
         if(res && res.data) {
           this.$router.push({
-            path: '/addtrans',
+            path: '/addtrans.html',
             query: {
               folioid: this.querInfo.roomfolioid,
               itemtype: 1,
@@ -445,6 +494,26 @@ export default {
       }).catch(err => {
         console.log('DeducTransHandler', err);
       })
+    },
+    getCreatEdData() {
+      switch (this.$route.query.action) {
+        case "book":
+        case "walkin":
+            // this.GetRoomFolioRateHandler();
+          break;
+        case "booktowalkin":
+        case "checkin":
+        case "checkout":
+        case "noshow":
+        case "cancel":
+            this.GetRoomFolioHandel();
+            this.GetAccTransHandler();
+            this.QueryRoomRatePlanHandler();
+            this.GetRoomFolioRateHandler();
+          break;
+        default:
+          break;
+      }
     }
   },
   created() {
@@ -453,28 +522,34 @@ export default {
     this.endDate = dayjs().add(1, 'day').format("YYYY-MM-DD");
     this.GetCodeHandler('SourceID');
     this.GetRoomRateTypeListHandler();
-    // getroomtype(); XXX
-    // getcuroomrate(); this.GetRoomFolioRateHandler();
-    // getroomfolio();  this.GetRoomFolioHandel();
-    // getacctrans()  this.GetAccTransHandler();
-    // getroomrateplan()  this.QueryRoomRatePlanHandler();
-    switch (this.$route.query.action) {
-      case "book":
-      case "walkin":
-          // this.GetRoomFolioRateHandler();
-        break;
-      case "booktowalkin":
-      case "checkin":
-      case "checkout":
-      case "noshow":
-      case "cancel":
-          this.GetRoomFolioHandel();
-          this.GetAccTransHandler();
-          this.QueryRoomRatePlanHandler();
-          this.GetRoomFolioRateHandler();
-        break;
-      default:
-        break;
+    if(this.$route.query.action === "book" && !this.$route.query.roomno) {
+      this.openSelectRoom = true;
+      SystemAPI.RoomMapHandelLogic(getChainID(), this.active === 1 ? "RoomNo" : this.active === 2 ? "RoomTypeID" : "Floor").then(
+        res => {
+          if (res.status === 200 && res.data && res.data.length) {
+            let typeList = [],roomObj = {};
+            res.data.forEach(ele => {
+              if(ele.RoomTypeID) {
+                if(roomObj[ele.RoomTypeID]) {
+                  roomObj[ele.RoomTypeID].push(ele)
+                } else {
+                  typeList.push(ele);
+                  roomObj[ele.RoomTypeID] = [ele]
+                }
+              }
+            })
+            this.typeList = typeList;
+            this.roomObj = roomObj;
+            this.onConfirm4(typeList[0])
+          }
+        },
+        err => {
+          console.log("getRoomMapErr", err);
+          this.isLoading = false;
+        }
+      );
+    } else {
+      this.getCreatEdData();
     }
   },
   beforeDestroy() {
